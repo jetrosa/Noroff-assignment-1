@@ -1,0 +1,8 @@
+#laptopImg {
+    height: 100px;
+    max-width: 100%;
+}
+
+#outstandingLoan, #repayButton{
+    color:red;
+}
