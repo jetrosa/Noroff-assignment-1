@@ -2,4 +2,4 @@
 
 Create a Dynamic Webpage using JS
 
-Webpage created using JS and Bootstrap for additional styling. Default (sample) wireframe used for modelling the page as shown in the assignment document Appendix B.
+Webpage created using JS and Bootstrap for additional styling. Default (sample) wireframe used for modelling the page as shown in the assignment document (in the assignment_docs folder) Appendix B.

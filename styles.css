@@ -1,25 +1,46 @@
-ul li{
-    font-size: .7em;
+ul li {
+  list-style-type: circle;
+  font-size: 0.7em;
 }
 
-#outstandingLoan, #repayButton{
-    color:red;
+ul {
+  padding: 0.5em;
 }
 
-#laptopImg{
-    padding: 0.3em;
-    width: 90%
+.card {
+  margin: 0.5em;
+  min-width: 10em;
+  border: none;
 }
 
-#selectedLaptop{
-    height: 11em;
+.navbar p {
+  color: white;
+  margin: 0 1.5em;
 }
 
-.card{
-    margin: .5em;
+#selectedLaptop {
+  min-width: 20em;
 }
 
-.navbar p{
-    color: white;
-    margin: 0 1.5em;
+.btn {
+  width: 100%;
+  margin-top: 0.2em;
+}
+
+#outstandingLoan {
+  color: red;
+}
+
+#laptopImg {
+  padding: 0.3em;
+  width: 100%;
+}
+
+#selectedLaptop {
+  height: 11em;
+}
+
+#laptopPrice {
+  font-size: larger;
+  align-self: flex-end;
 }

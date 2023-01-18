@@ -8,7 +8,7 @@ const bankButtonElement = document.getElementById("bankButton");
 const workButtonElement = document.getElementById("workButton");
 const repayButtonElement = document.getElementById("repayButton");
 
-const baseUrl = "https://hickory-quilled-actress.glitch.me/";
+const baseUrl = "https://hickory-quilled-actress.glitch.me/"; //base url for laptop API data and images
 const laptopsElement = document.getElementById("laptops");
 const laptopSpecsElement = document.getElementById("specs");
 
@@ -29,7 +29,7 @@ let salaryBalance = 0.0; //balance that is can be used for loan payments or tran
 const salary = 100.0; //salary that is added to the salary balance
 
 /**
- * Load initial values for the page
+ * Load initial values/api data for the page
  */
 const initialize = () => {
   salaryBalanceAdjust(0);
@@ -38,13 +38,12 @@ const initialize = () => {
   //Fetches the laptops using external API
   try {
     fetch(`${baseUrl}computers`)
-    .then((response) => response.json())
-    .then((data) => (laptops = data))
-    .then((laptops) => addLaptopsToMenu(laptops));
+      .then((response) => response.json())
+      .then((data) => (laptops = data))
+      .then((laptops) => addLaptopsToMenu(laptops));
   } catch (error) {
     console.log(`API fetch error: ${error}`);
   }
-  
 };
 
 /**
@@ -117,8 +116,8 @@ const handleGetLoan = () => {
   } else {
     balanceAdjust(loanAmount);
     loanAdjust(loanAmount);
-    repayButtonElement.style.visibility = "visible";
-    outstandingLoanElement.style.visibility = "visible";
+    repayButtonElement.style.display = "block"; //show the button used for paying back the loan
+    outstandingLoanElement.style.visibility = "visible"; //show the outstanding loan amount
   }
 };
 
@@ -150,24 +149,24 @@ const handleWork = () => {
  * Button handler for using salary balance to pay back the outstanding loan
  */
 const handleRepay = () => {
+  //Use the salary balance for paying back the loan and transfer the leftover to the bank account
   if (salaryBalance >= outstandingLoan) {
     const leftover = salaryBalance - outstandingLoan;
     loanAdjust(-outstandingLoan); //pay back the outstanding loan completely
     balanceAdjust(leftover); //add the leftover to the bank balance
-    repayButtonElement.style.visibility = "hidden"; //hide the repay button
+    repayButtonElement.style.display = "none"; //hide the repay button
     outstandingLoanElement.style.visibility = "hidden"; //hide the outstanding loan element
   } else {
-    loanAdjust(-salaryBalance);
+    loanAdjust(-salaryBalance); //pay back the loan
   }
-  salaryBalanceAdjust(-salaryBalance);
+  salaryBalanceAdjust(-salaryBalance); //reset the salary balance
 };
 
 /**
- * Handler for the laptop selection - shows the data related to the selected laptop and loads the
- * image of the laptop.
- * @param {*} e
+ * Handler for the laptop selection - shows the data included in the selected laptop
+ * object and loads the image of the laptop.
  */
-const handleLaptopSelectionChange = (e) => {
+const handleLaptopSelectionChange = () => {
   const selectedLaptop = laptops[laptopsElement.selectedIndex];
   laptopSpecsElement.innerHTML = "";
   selectedLaptop.specs.forEach((x) => {
@@ -190,7 +189,7 @@ const handleLaptopSelectionChange = (e) => {
 const handleBuyLaptop = () => {
   const selectedLaptop = laptops[laptopsElement.selectedIndex];
   const price = parseFloat(selectedLaptop.price);
-  if (price < balance) {
+  if (balance >= price) {
     balanceAdjust(-price);
     alert(
       `Congratulations, you just bought a ${selectedLaptop.title} for ${selectedLaptop.price}.`
