@@ -17,11 +17,16 @@ const laptopDescriptionElement = document.getElementById("laptopDescription");
 const laptopPriceElement = document.getElementById("laptopPrice");
 const laptopBuyButtonElement = document.getElementById("laptopBuyButton");
 
+const currencyEurFormat = new Intl.NumberFormat("de-DE", {
+  style: "currency",
+  currency: "EUR",
+});
+
 let laptops = []; //fetched laptop objects
-let balance = 0; //bank balance
-let outstandingLoan = 0; //outstanding loan amount
-let salaryBalance = 0; //balance that is can be used for loan payments or transferred to the bank balance
-const salary = 100; //salary that is added to the salary balance
+let balance = 0.0; //bank balance
+let outstandingLoan = 0.0; //outstanding loan amount
+let salaryBalance = 0.0; //balance that is can be used for loan payments or transferred to the bank balance
+const salary = 100.0; //salary that is added to the salary balance
 
 /**
  * Load initial values for the page
@@ -31,37 +36,42 @@ const initialize = () => {
   balanceAdjust(0);
 
   //Fetches the laptops using external API
-  fetch(`${baseUrl}computers`)
+  try {
+    fetch(`${baseUrl}computers`)
     .then((response) => response.json())
     .then((data) => (laptops = data))
     .then((laptops) => addLaptopsToMenu(laptops));
+  } catch (error) {
+    console.log(`API fetch error: ${error}`);
+  }
+  
 };
 
 /**
  * Adjust the bank balance
- * @param {int} amount Amount can be positive or negative
+ * @param {number} amount Amount can be positive or negative
  */
 const balanceAdjust = (amount) => {
-  balance += amount;
-  balanceElement.innerText = balance;
+  balance += parseFloat(amount);
+  balanceElement.innerText = currencyEurFormat.format(balance);
 };
 
 /**
  * Adjust the outstanding loan
- * @param {int} amount Amount can be positive or negative
+ * @param {number} amount Amount can be positive or negative
  */
 const loanAdjust = (amount) => {
-  outstandingLoan += amount;
-  loanedAmountElement.innerText = outstandingLoan;
+  outstandingLoan += parseFloat(amount);
+  loanedAmountElement.innerText = currencyEurFormat.format(outstandingLoan);
 };
 
 /**
  * Adjust the salary balance
- * @param {int} amount Amount can be positive or negative
+ * @param {number} amount Amount can be positive or negative
  */
 const salaryBalanceAdjust = (amount) => {
-  salaryBalance += amount;
-  salaryBalanceElement.innerText = salaryBalance;
+  salaryBalance += parseFloat(amount);
+  salaryBalanceElement.innerText = currencyEurFormat.format(salaryBalance);
 };
 
 const addLaptopsToMenu = (laptops) => {
@@ -82,14 +92,27 @@ const addLaptopToMenu = (laptop) => {
  * amount is too high or there is already an active loan (outstanding loan > 0).
  */
 const handleGetLoan = () => {
-  const loanAmount = parseInt(
-    prompt("Please enter the amount of money you wish to loan: ")
-  );
-  if (parseInt(outstandingLoan) > 0) {
+  if (parseFloat(outstandingLoan) > 0) {
     alert(
-      "You may not have two loans at once. The initial loan should be paid back in full."
+      "You may not have multiple loans at once. The initial loan should be paid back in full."
     );
-  } else if (loanAmount > 2 * balance) {
+    return;
+  }
+
+  //prompt the user until a valid number is entered
+  let loanAmount = "null";
+  while (isNaN(loanAmount)) {
+    const result = prompt(
+      "Please enter the amount of money you wish to loan: "
+    );
+    if (result === null) {
+      return; //prompt cancel
+    }
+    loanAmount = parseFloat(result);
+  }
+
+  //maximum loan 2*bank account balance
+  if (loanAmount > 2 * balance) {
     alert("The requested loan amount is too high");
   } else {
     balanceAdjust(loanAmount);
@@ -105,7 +128,7 @@ const handleGetLoan = () => {
 const handleBank = () => {
   //Use 0.1*salary balance for paying back the outstanding loan and transfer the rest to the bank balance
   if (outstandingLoan > 0) {
-    const loanPayment = 0.1 * salaryBalance;
+    let loanPayment = 0.1 * salaryBalance;
     if (loanPayment > outstandingLoan) {
       loanPayment = outstandingLoan;
     }
@@ -155,7 +178,7 @@ const handleLaptopSelectionChange = (e) => {
 
   laptopNameElement.innerText = selectedLaptop.title;
   laptopDescriptionElement.innerText = selectedLaptop.description;
-  laptopPriceElement.innerText = selectedLaptop.price;
+  laptopPriceElement.innerText = currencyEurFormat.format(selectedLaptop.price);
   document.getElementById(
     "laptopImg"
   ).src = `${baseUrl}${selectedLaptop.image}`;
@@ -166,7 +189,7 @@ const handleLaptopSelectionChange = (e) => {
  */
 const handleBuyLaptop = () => {
   const selectedLaptop = laptops[laptopsElement.selectedIndex];
-  const price = parseInt(selectedLaptop.price);
+  const price = parseFloat(selectedLaptop.price);
   if (price < balance) {
     balanceAdjust(-price);
     alert(

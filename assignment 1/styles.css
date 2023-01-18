@@ -11,6 +11,10 @@ ul li{
     width: 90%
 }
 
+#selectedLaptop{
+    height: 11em;
+}
+
 .card{
     margin: .5em;
 }
