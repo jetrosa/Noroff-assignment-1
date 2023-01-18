@@ -1,49 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Komputer store</title>
-    <link rel="stylesheet" href="styles.css">
-</head>
-<body>
-    <h3>Joe Banker</h3>
-    <div>
-        <span>Balance </span>
-        <span id ="balance"></span>
-    </div>
-    <div id="outstandingLoan" style="visibility:hidden">
-        <span>Outstanding loan </span>
-        <span id ="loanedAmount"></span>
-    </div>
-    <button id ="getLoan">Loan</button>
+    <link rel="stylesheet" href="bootstrap.css" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <nav class="navbar bg-dark">
+      <p>Komputer store</p>
+    </nav>
+    <div class="container m-3">
+      <div class="cards d-flex mb-3">
+        <div id="bank" class="card col-3 shadow">
+          <div class="card-body d-flex flex-column">
+            <h3>Joe Banker</h3>
+            <div>
+              <span>Balance </span>
+              <span id="balance"></span>
+              <span> EUR</span>
+            </div>
+            <div id="outstandingLoan" style="visibility: hidden">
+              <span>Outstanding loan </span>
+              <span id="loanedAmount"></span>
+              <span> EUR</span>
+            </div>
+            <div class="mt-auto">
+              <button id="getLoan">Loan</button>
+            </div>
+          </div>
+        </div>
 
-    <div id ="work">
-        <h3>Work</h3>
-        <span>Pay </span>
-        <span id ="salaryBalance"></span>
-        <p></p>
-        <button id ="bankButton">Bank</button>
-        <button id ="workButton">Work</button>
-        <button id ="repayButton" style="visibility:hidden">Repay</button>
-    </div>
+        <div id="work" class="card col-4 shadow">
+          <div class="card-body d-flex flex-column">
+            <h3>Work</h3>
+            <div>
+              <span>Pay </span>
+              <span id="salaryBalance"></span>
+              <span> EUR</span>
+            </div>
+            <div class="mt-auto">
+              <button id="bankButton">Bank</button>
+              <button id="workButton">Work</button>
+              <button id="repayButton" style="visibility: hidden">Repay</button>
+            </div>
+          </div>
+        </div>
 
-    <div id ="laptopSelection">
-        <h3>Laptop info</h3>
-        <select name="laptops" id="laptops"></select>
-        <h4>Specs</h4>
-        <ul id="specs"></ul>
-    </div>
+        <div id="laptopSelection" class="card shadow">
+          <div class="card-body d-flex flex-column">
+            <h3>Laptops</h3>
+            <select name="laptops" id="laptops"></select>
+            <h6>Features:</h6>
+            <ul id="specs"></ul>
+          </div>
+        </div>
+      </div>
 
-    <div id ="laptopInfo">
-        <h3>Laptop selection</h3>
-        <img id="laptopImg" src="" alt="">
-        <div id ="laptopName"></div>
-        <div id ="laptopDescription"></div>
-        <div id ="laptopPrice"></div>
-        <button id ="laptopBuyButton">BUY NOW</button>
+      <div class="card mb-5 shadow">
+        <div id="laptopInfo" class="d-flex">
+          <div class="" style="width: 200px">
+            <img id="laptopImg" src="" alt="" />
+          </div>
+          <div class="flex-grow-1 ms-3">
+            <h4 id="laptopName"></h4>
+            <div id="laptopDescription"></div>
+            <div>
+              <span id="laptopPrice"></span>
+              <span> EUR</span>
+            </div>
+            <button id="laptopBuyButton">BUY NOW</button>
+          </div>
+        </div>
+      </div>
     </div>
     <script src="app.js"></script>
-</body>
+  </body>
 </html>

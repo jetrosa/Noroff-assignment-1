@@ -1,8 +1,21 @@
-#laptopImg {
-    height: 100px;
-    max-width: 100%;
+ul li{
+    font-size: .7em;
 }
 
 #outstandingLoan, #repayButton{
     color:red;
+}
+
+#laptopImg{
+    padding: 0.3em;
+    width: 90%
+}
+
+.card{
+    margin: .5em;
+}
+
+.navbar p{
+    color: white;
+    margin: 0 1.5em;
 }
